@@ -1,0 +1,77 @@
+{
+  "expo": {
+    "name": "App do Foodtruck",
+    "slug": "foodtruck-app",
+    "scheme": "foodtruck",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.heitorbelem.foodtruckapp"
+    },
+    "android": {
+      "package": "com.foodtruckapp",
+      "adaptiveIcon": {
+        "backgroundColor": "#fbf8f2",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/MaterialSymbolsRounded-Medium.ttf",
+            "./assets/fonts/MaterialSymbolsRoundedFilled-Medium.ttf"
+          ],
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Nunito",
+                "fontDefinitions": [
+                  {
+                    "path": "./node_modules/@expo-google-fonts/nunito/400Regular/Nunito_400Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./node_modules/@expo-google-fonts/nunito/600SemiBold/Nunito_600SemiBold.ttf",
+                    "weight": 600
+                  },
+                  {
+                    "path": "./node_modules/@expo-google-fonts/nunito/700Bold/Nunito_700Bold.ttf",
+                    "weight": 700
+                  },
+                  {
+                    "path": "./node_modules/@expo-google-fonts/nunito/800ExtraBold/Nunito_800ExtraBold.ttf",
+                    "weight": 800
+                  }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "./node_modules/@expo-google-fonts/nunito/400Regular/Nunito_400Regular.ttf",
+              "./node_modules/@expo-google-fonts/nunito/600SemiBold/Nunito_600SemiBold.ttf",
+              "./node_modules/@expo-google-fonts/nunito/700Bold/Nunito_700Bold.ttf",
+              "./node_modules/@expo-google-fonts/nunito/800ExtraBold/Nunito_800ExtraBold.ttf"
+            ]
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

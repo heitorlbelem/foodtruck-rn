@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "App do Foodtruck",
+    "name": "Ember",
     "slug": "foodtruck-app",
     "scheme": "foodtruck",
     "version": "1.0.0",
@@ -14,10 +14,8 @@
     "android": {
       "package": "com.foodtruckapp",
       "adaptiveIcon": {
-        "backgroundColor": "#fbf8f2",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#C91926",
+        "foregroundImage": "./assets/android-icon-foreground.png"
       },
       "predictiveBackGestureEnabled": false
     },

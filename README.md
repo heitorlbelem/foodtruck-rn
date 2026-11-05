@@ -1,4 +1,4 @@
-# App do Foodtruck
+# Ember
 
 App de cadastro do cardápio (categorias, itens, adicionais e combos) para tablet Android em paisagem. Expo SDK 58, Expo Router e TypeScript, rodando como **development build**.
 

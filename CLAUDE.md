@@ -1,6 +1,6 @@
-# App do Foodtruck (nome provisório)
+# Ember
 
-App de gestão para foodtrucks. A primeira usuária é a dona do foodtruck, num tablet Android em paisagem: primeiro cadastrando o cardápio em casa, depois no caixa, com fila. Depois virá uma versão web. O produto será vendido a outros foodtrucks, então nada pode ser específico de um foodtruck.
+Ember é um app de gestão para foodtrucks. A primeira usuária é a dona do foodtruck, num tablet Android em paisagem: primeiro cadastrando o cardápio em casa, depois no caixa, com fila. Depois virá uma versão web. O produto será vendido a outros foodtrucks, então nada pode ser específico de um foodtruck.
 
 ## Antes de criar ou alterar qualquer tela
 

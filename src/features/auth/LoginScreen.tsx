@@ -14,9 +14,9 @@ export function LoginScreen() {
   const vm = useLoginScreen();
 
   return (
-    <ImageBackground source={background} resizeMode="cover" style={styles.root}>
+    <ImageBackground testID="login-background" source={background} resizeMode="cover" style={styles.root}>
       {/* The card rises when the keyboard opens, so "Entrar" stays visible. */}
-      <KeyboardAvoidingView behavior="padding" style={styles.root}>
+      <KeyboardAvoidingView testID="login-content" behavior="padding" style={styles.fill}>
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <View style={styles.brand}>
             <Image source={logo} style={styles.logo} accessibilityIgnoresInvertColors />
@@ -72,7 +72,9 @@ export function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
+  // Cream only behind the illustration, while it loads; nothing on top may be opaque.
   root: { flex: 1, backgroundColor: color.surface100 },
+  fill: { flex: 1 },
   content: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: space[5], gap: space[5] },
   brand: { alignItems: 'center', gap: space[3] },
   logo: { width: 96, height: 96, borderRadius: radius.lg },

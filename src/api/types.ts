@@ -65,4 +65,16 @@ export type ErrorDetails = {
   categories?: NamedRef[];
   ids?: string[];
   suggested_price_cents?: number;
+  retry_after_seconds?: number;
+};
+
+export type AuthUser = { id: string; name: string; email: string; role: string };
+
+export type TokenPair = {
+  access_token: string;
+  token_type: 'Bearer';
+  expires_in: number;
+  refresh_token: string;
+  refresh_expires_at: string;
+  user: AuthUser;
 };

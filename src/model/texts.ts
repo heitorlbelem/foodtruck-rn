@@ -1,4 +1,4 @@
-import type { ApiError } from '@/api/client';
+import type { ApiError } from '@/api/http';
 import type { Resource } from '@/api/types';
 
 /** UI texts for each record type, with the right grammatical gender. */

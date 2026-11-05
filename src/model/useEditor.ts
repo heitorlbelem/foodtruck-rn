@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { ApiError, api } from '@/api/client';
+import { api } from '@/api/client';
+import { ApiError } from '@/api/http';
 import type { Resource } from '@/api/types';
 import type { DialogProps } from '@/components/Dialog';
 import { useToast } from '@/components/Toast';

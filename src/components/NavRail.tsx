@@ -10,8 +10,14 @@ const destinations: { href: Href; label: string; icon: IconName }[] = [
   { href: '/combos', label: 'Combos', icon: 'lunch_dining' },
 ];
 
+type Props = {
+  brand: string;
+  /** "Sair" at the bottom; not a destination, the caller confirms first. */
+  onSignOut: () => void;
+};
+
 /** Fixed navigation rail on the left. The top is the customer's only branding spot. */
-export function NavRail({ brand }: { brand: string }) {
+export function NavRail({ brand, onSignOut }: Props) {
   const pathname = usePathname();
   return (
     <View style={styles.rail} accessibilityRole="tablist">
@@ -32,6 +38,14 @@ export function NavRail({ brand }: { brand: string }) {
           </Pressable>
         );
       })}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Sair"
+        onPress={onSignOut}
+        style={[styles.item, styles.signOut]}>
+        <Icon name="logout" color={color.onPrimary} />
+        <Text style={[type.caption, styles.label]}>Sair</Text>
+      </Pressable>
     </View>
   );
 }
@@ -61,6 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: space[1],
   },
+  signOut: { marginTop: 'auto' },
   active: { backgroundColor: 'rgba(255, 255, 255, 0.12)' },
   label: { color: color.onPrimary, fontWeight: '700' },
 });

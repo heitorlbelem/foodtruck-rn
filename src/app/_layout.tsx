@@ -1,34 +1,49 @@
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { NavRail } from '@/components/NavRail';
 import { ToastProvider } from '@/components/Toast';
-import { MenuProvider } from '@/model/MenuContext';
+import { AuthProvider, useAuth } from '@/model/AuthContext';
 import { color } from '@/theme';
-
-const BRAND = 'FT';
 
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />
-      <MenuProvider>
-        <SafeAreaView style={styles.root}>
-          <NavRail brand={BRAND} />
-          <View style={styles.content}>
-            <ToastProvider>
-              <Slot />
-            </ToastProvider>
-          </View>
-        </SafeAreaView>
-      </MenuProvider>
+      <AuthProvider>
+        {/* Toasts for the login; the signed-in area has its own, centered over the content. */}
+        <ToastProvider>
+          <RootStack />
+        </ToastProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }
 
+function RootStack() {
+  const { status } = useAuth();
+
+  if (status === 'checking') {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color={color.primary} />
+      </View>
+    );
+  }
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={status === 'signedOut'}>
+        <Stack.Screen name="login" />
+      </Stack.Protected>
+      <Stack.Protected guard={status === 'signedIn'} redirectTo="/login">
+        <Stack.Screen name="(app)" />
+      </Stack.Protected>
+    </Stack>
+  );
+}
+
 const styles = StyleSheet.create({
-  root: { flex: 1, flexDirection: 'row', backgroundColor: color.surface100 },
-  content: { flex: 1 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: color.surface100 },
 });

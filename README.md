@@ -22,6 +22,15 @@ Por padrão o app usa `https://foodtruck-api.fly.dev/api/v1`. Para usar a API lo
 EXPO_PUBLIC_API_URL=http://10.0.2.2:3000/api/v1   # emulador Android; num aparelho, use o IP do computador
 ```
 
+### Conta para entrar
+
+O app exige login. As contas são criadas no terminal da API (`../foodtruck`), nunca pelo app:
+
+```sh
+npm run users -- create --email dono@exemplo.com --name "Dono"   # local; a senha é pedida sem eco
+fly ssh console -C "npm run users -- create --email dono@exemplo.com --name Dono"   # produção
+```
+
 ## Estrutura
 
 MVVM simples: o **Model** é a API e o estado do cardápio; cada tela e cada painel tem um **ViewModel** (hook `useXxx`) com estado, regras e textos derivados; a **View** (`.tsx`) só desenha o que o ViewModel entrega.
@@ -56,6 +65,7 @@ https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL
 ## Verificar
 
 ```sh
+npm test
 npm run typecheck
 npm run lint
 npx expo-doctor

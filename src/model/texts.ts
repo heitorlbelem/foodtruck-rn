@@ -64,6 +64,8 @@ export function errorMessage(error: ApiError): string {
       ].join(', ')}.`;
     case 'INVALID_REFERENCE':
       return 'Uma das opções escolhidas não existe mais. Confira e salve de novo.';
+    case 'FORBIDDEN':
+      return 'Você não tem permissão para isso.';
     case 'NOT_ARCHIVED':
       return 'Isso já estava de volta no cardápio.';
     default:

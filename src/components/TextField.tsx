@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
+import { Icon } from '@/components/Icon';
 import { Text } from '@/components/Text';
 import { maskPrice } from '@/lib/money';
 import { color, radius, size, space, type } from '@/theme';
@@ -11,10 +12,13 @@ type Props = Omit<TextInputProps, 'style'> & {
   error?: string;
   /** Price field: "R$" prefix, number keyboard and a cents mask while typing (maskPrice). */
   price?: boolean;
+  /** Password field: hidden text with a 48px show/hide button at the end. */
+  password?: boolean;
 };
 
-export function TextField({ label, hint, error, price, ...input }: Props) {
+export function TextField({ label, hint, error, price, password, ...input }: Props) {
   const [focused, setFocused] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   return (
     <View style={styles.field}>
       <Text variant="label">{label}</Text>
@@ -28,6 +32,9 @@ export function TextField({ label, hint, error, price, ...input }: Props) {
         <TextInput
           accessibilityLabel={label}
           keyboardType={price ? 'number-pad' : 'default'}
+          secureTextEntry={password ? !revealed : undefined}
+          autoComplete={password ? 'current-password' : undefined}
+          autoCapitalize={password ? 'none' : undefined}
           placeholderTextColor={color.inkMuted}
           cursorColor={color.primary}
           selectionColor={color.primarySoft}
@@ -47,6 +54,15 @@ export function TextField({ label, hint, error, price, ...input }: Props) {
           }}
           style={styles.input}
         />
+        {password && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={revealed ? 'Ocultar senha' : 'Mostrar senha'}
+            onPress={() => setRevealed((r) => !r)}
+            style={styles.toggle}>
+            <Icon name={revealed ? 'visibility_off' : 'visibility'} color={color.inkMuted} />
+          </Pressable>
+        )}
       </View>
       {(error ?? hint) && (
         <Text variant="caption" style={{ color: error ? color.danger : color.inkMuted }}>
@@ -73,4 +89,11 @@ const styles = StyleSheet.create({
   // Design system focus ring: 3px solid primary.
   focused: { outlineColor: color.primary, outlineWidth: 3, outlineOffset: 2, outlineStyle: 'solid' },
   input: { ...type.body, flex: 1, color: color.ink, paddingVertical: 0 },
+  toggle: {
+    width: size.touchMin,
+    height: size.touchMin,
+    marginRight: -space[4],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

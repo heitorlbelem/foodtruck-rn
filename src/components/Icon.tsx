@@ -10,10 +10,14 @@ const glyphs = {
   archive: '\ue149',
   check: '\ue5ca',
   close: '\ue5cd',
+  logout: '\ue9ba',
   lunch_dining: '\uea61',
   remove: '\ue15b',
   restaurant_menu: '\ue561',
+  schedule: '\ue8b5',
   undo: '\ue166',
+  visibility: '\ue8f4',
+  visibility_off: '\ue8f5',
 } as const;
 
 export type IconName = keyof typeof glyphs;

@@ -50,7 +50,7 @@ O código (pastas, arquivos, rotas, nomes e comentários) fica em inglês; os te
 Nunito (de `@expo-google-fonts/nunito`) e Material Symbols Rounded vão embutidas no app pelo plugin `expo-font` em `app.json`. As fontes de ícone em `assets/fonts/` têm **só os ícones usados**, para ficarem pequenas. Para adicionar um ícone, baixe de novo as duas (preenchimento 0 e 1) com o nome dele em `icon_names` e acrescente o codepoint em `src/components/Icon.tsx`:
 
 ```
-https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&icon_names=add,add_circle,…
+https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&icon_names=add,add_circle,archive,check,close,logout,lunch_dining,remove,restaurant_menu,schedule,undo,visibility,visibility_off
 ```
 
 ## Verificar

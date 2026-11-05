@@ -8,6 +8,8 @@ export const REFRESH_TOKEN_KEY = 'ember.refresh_token';
 
 let accessToken: string | null = null;
 let refreshing: Promise<TokenPair> | null = null;
+/** Bumped on every endSession: a refresh started before it must not bring the session back. */
+let generation = 0;
 const endedListeners = new Set<() => void>();
 
 export const getAccessToken = () => accessToken;
@@ -19,6 +21,7 @@ export async function startSession(pair: TokenPair): Promise<void> {
 }
 
 export async function endSession(): Promise<void> {
+  generation += 1;
   accessToken = null;
   await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
 }
@@ -38,15 +41,23 @@ export function onSessionEnded(listener: () => void): () => void {
  */
 export function refreshSession(): Promise<TokenPair> {
   refreshing ??= (async () => {
+    const startedAt = generation;
+    const ended = () => new ApiError('INVALID_REFRESH_TOKEN', 401);
     try {
       const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
-      if (!refreshToken) throw new ApiError('INVALID_REFRESH_TOKEN', 401);
+      if (!refreshToken) throw ended();
       const pair = await send<TokenPair>('POST', '/auth/refresh', { body: { refresh_token: refreshToken } });
+      // Signed out while the refresh was in flight: drop the new pair.
+      if (generation !== startedAt) throw ended();
       await startSession(pair);
+      if (generation !== startedAt) {
+        await endSession();
+        throw ended();
+      }
       return pair;
     } catch (e) {
       // Only an invalid refresh token ends the session; network and server errors keep it.
-      if (e instanceof ApiError && e.code === 'INVALID_REFRESH_TOKEN') {
+      if (e instanceof ApiError && e.code === 'INVALID_REFRESH_TOKEN' && generation === startedAt) {
         await endSession();
         endedListeners.forEach((listener) => listener());
       }

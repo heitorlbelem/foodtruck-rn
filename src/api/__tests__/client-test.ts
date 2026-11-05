@@ -139,3 +139,33 @@ test('logout clears storage even when the request fails', async () => {
   expect(await session.hasStoredSession()).toBe(false);
   expect(session.getAccessToken()).toBeNull();
 });
+
+test('signing out during an in-flight refresh does not bring the session back', async () => {
+  let releaseRefresh: () => void = () => {};
+  fetchMock.mockImplementation((url: string) => {
+    const path = new URL(url).pathname;
+    if (path.endsWith('/auth/refresh')) {
+      return new Promise((resolve) => {
+        releaseRefresh = () => resolve({ status: 200, ok: true, json: async () => pair(2) });
+      });
+    }
+    if (path.endsWith('/auth/logout')) return Promise.resolve({ status: 204, ok: true, json: async () => null });
+    return Promise.resolve({ status: 401, ok: false, json: async () => ({ code: 'UNAUTHENTICATED' }) });
+  });
+
+  const menu = api.menu().catch((e) => e);
+  await new Promise((r) => setTimeout(r, 0));
+  await api.logout();
+  releaseRefresh();
+  await menu;
+
+  expect(await session.hasStoredSession()).toBe(false);
+  expect(session.getAccessToken()).toBeNull();
+});
+
+test('logout clears storage without waiting for a stalled request', async () => {
+  fetchMock.mockImplementation(() => new Promise(() => {}));
+  await api.logout();
+  expect(await session.hasStoredSession()).toBe(false);
+  expect(session.getAccessToken()).toBeNull();
+});

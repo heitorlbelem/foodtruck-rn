@@ -19,15 +19,16 @@ export const api = {
     await startSession(pair);
     return pair.user;
   },
-  /** Leaves even when the request fails: no internet, expired token, server error. */
+  /**
+   * Leaves at once, even with no internet or a stalled connection: the local session is
+   * cleared first and the server is told afterwards, best effort.
+   */
   async logout(): Promise<void> {
-    try {
-      await send<void>('POST', '/auth/logout', { token: getAccessToken() ?? undefined });
-    } catch {
-      // The owner pressed "Sair": she leaves anyway.
-    } finally {
-      await endSession();
-    }
+    const token = getAccessToken() ?? undefined;
+    await endSession();
+    send<void>('POST', '/auth/logout', { token }).catch(() => {
+      // The owner pressed "Sair": she is out whatever the server says.
+    });
   },
   me: () => request<AuthUser>('GET', '/auth/me'),
   menu: () => request<Menu>('GET', '/menu'),
